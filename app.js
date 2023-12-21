@@ -52,7 +52,58 @@ app.post('/crearcarpeta', upload.array('archivos', 15), (req, res) => {
     return res.status(400).json({ error: 'El nombre de la carpeta es requerido.' });
   }  
 
+  const postulacionesDir = path.join(__dirname, 'postulaciones');
+  const carpetaPath = path.join(postulacionesDir, nombreCarpeta);
+
+  if (!fs.existsSync(carpetaPath) || !fs.statSync(carpetaPath).isDirectory()) {
+    return res.status(404).json({ error: 'La postulación no existe.' });
+  }
+
+  const archivos = fs.readdirSync(carpetaPath);
+
+
+   // Construir la URL de la carpeta
+   const urlCarpeta = `http://localhost:3000/postulaciones/${nombreCarpeta}`;
+
+   // Enviar la URL como parte de la respuesta JSON
+   res.status(200).json({ mensaje: 'Carpeta creada exitosamente.', urlCarpeta, archivos });
+
 });
+
+// Ruta GET para ver los archivos físicos de una postulación específica
+app.get('/postulaciones/:nombreCarpeta', (req, res) => {
+  const nombreCarpeta = req.params.nombreCarpeta;
+  const postulacionesDir = path.join(__dirname, 'postulaciones');
+  const carpetaPath = path.join(postulacionesDir, nombreCarpeta);
+
+  if (!fs.existsSync(carpetaPath) || !fs.statSync(carpetaPath).isDirectory()) {
+    return res.status(404).json({ error: 'La postulación no existe.' });
+  }
+
+  const archivos = fs.readdirSync(carpetaPath);
+  res.status(200).json({ archivos });
+});
+
+// Ruta GET para acceder al contenido de un archivo específico
+app.get('/postulaciones/:nombreCarpeta/:nombreArchivo', (req, res) => {
+  const nombreCarpeta = req.params.nombreCarpeta;
+  const nombreArchivo = req.params.nombreArchivo;
+  const postulacionesDir = path.join(__dirname, 'postulaciones');
+  const carpetaPath = path.join(postulacionesDir, nombreCarpeta);
+  const filePath = path.join(carpetaPath, nombreArchivo);
+
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
+    return res.status(404).json({ error: 'El archivo no existe.' });
+  }
+
+  // Configurar el encabezado Content-Type
+  res.setHeader('Content-Type', 'application/pdf');
+
+  // Leer el contenido del archivo y enviarlo como respuesta
+  const contenidoArchivo = fs.readFileSync(filePath);
+  res.status(200).send(contenidoArchivo);
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
