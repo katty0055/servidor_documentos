@@ -105,6 +105,19 @@ app.get('/postulaciones/:nombreCarpeta/:nombreArchivo', (req, res) => {
 });
 
 
+// Ruta GET para obtener la lista de archivos en la carpeta 'Postulaciones'
+app.get('/postulaciones', (req, res) => {
+  const postulacionesDir = path.join(__dirname, 'postulaciones');
+
+  if (!fs.existsSync(postulacionesDir) || !fs.statSync(postulacionesDir).isDirectory()) {
+    return res.status(404).json({ error: 'La carpeta de postulaciones no existe.' });
+  }
+
+  const archivos = fs.readdirSync(postulacionesDir);
+  res.status(200).json({ archivos });
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor en ejecución en http://localhost:${PORT}`);
