@@ -99,9 +99,9 @@ app.get('/postulaciones/:nombreCarpeta/:nombreArchivo', (req, res) => {
   // Configurar el encabezado Content-Type
   res.setHeader('Content-Type', 'application/pdf');
 
-  // Leer el contenido del archivo y enviarlo como respuesta
-  const contenidoArchivo = fs.readFileSync(filePath);
-  res.status(200).send(contenidoArchivo);
+  // Crear un flujo de lectura del archivo y enviarlo como respuesta
+  const fileStream = fs.createReadStream(filePath);
+  fileStream.pipe(res);
 });
 
 
