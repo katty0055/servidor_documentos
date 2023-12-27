@@ -23,7 +23,7 @@ const multer = require('multer');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const nombreCarpeta = req.body.nombreCarpeta;
-    const postulacionesDir = path.join(__dirname, 'postulaciones'); // Cambié 'carpetas' a 'postulaciones'
+    const postulacionesDir = path.join(__dirname, 'Postulaciones'); // Cambié 'carpetas' a 'postulaciones'
     const carpetaPath = path.join(postulacionesDir, nombreCarpeta);
 
     if (!fs.existsSync(carpetaPath)) {
