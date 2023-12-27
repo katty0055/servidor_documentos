@@ -54,7 +54,7 @@ app.post('/crearcarpeta', upload.array('archivos', 15), (req, res) => {
     return res.status(400).json({ error: 'El nombre de la carpeta es requerido.' });
   }  
 
-  const postulacionesDir = path.join(__dirname, 'postulaciones');
+  const postulacionesDir = path.join(__dirname, 'Postulaciones');
   const carpetaPath = path.join(postulacionesDir, nombreCarpeta);
 
   if (!fs.existsSync(carpetaPath) || !fs.statSync(carpetaPath).isDirectory()) {
@@ -75,7 +75,7 @@ app.post('/crearcarpeta', upload.array('archivos', 15), (req, res) => {
 // Ruta GET para ver los archivos físicos de una postulación específica
 app.get('/postulaciones/:nombreCarpeta', (req, res) => {
   const nombreCarpeta = req.params.nombreCarpeta;
-  const postulacionesDir = path.join(__dirname, 'postulaciones');
+  const postulacionesDir = path.join(__dirname, 'Postulaciones');
   const carpetaPath = path.join(postulacionesDir, nombreCarpeta);
 
   if (!fs.existsSync(carpetaPath) || !fs.statSync(carpetaPath).isDirectory()) {
@@ -90,7 +90,7 @@ app.get('/postulaciones/:nombreCarpeta', (req, res) => {
 app.get('/postulaciones/:nombreCarpeta/:nombreArchivo', (req, res) => {
   const nombreCarpeta = req.params.nombreCarpeta;
   const nombreArchivo = req.params.nombreArchivo;
-  const postulacionesDir = path.join(__dirname, 'postulaciones');
+  const postulacionesDir = path.join(__dirname, 'Postulaciones');
   const carpetaPath = path.join(postulacionesDir, nombreCarpeta);
   const filePath = path.join(carpetaPath, nombreArchivo);
 
@@ -109,7 +109,7 @@ app.get('/postulaciones/:nombreCarpeta/:nombreArchivo', (req, res) => {
 
 // Ruta GET para obtener la lista de archivos en la carpeta 'Postulaciones'
 app.get('/postulaciones', (req, res) => {
-  const postulacionesDir = path.join(__dirname, 'postulaciones');
+  const postulacionesDir = path.join(__dirname, 'Postulaciones');
 
   if (!fs.existsSync(postulacionesDir) || !fs.statSync(postulacionesDir).isDirectory()) {
     return res.status(404).json({ error: 'La carpeta de postulaciones no existe.' });
