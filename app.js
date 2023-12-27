@@ -5,8 +5,10 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 
+const localhost = '0.0.0.0'
+
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: `http://${localhost}:5173`,
   methods: 'POST',
   optionsSuccessStatus: 204,
 };
@@ -63,7 +65,7 @@ app.post('/crearcarpeta', upload.array('archivos', 15), (req, res) => {
 
 
    // Construir la URL de la carpeta
-   const urlCarpeta = `http://localhost:3000/postulaciones/${nombreCarpeta}`;
+   const urlCarpeta = `http://${localhost}:3000/postulaciones/${nombreCarpeta}`;
 
    // Enviar la URL como parte de la respuesta JSON
    res.status(200).json({ mensaje: 'Carpeta creada exitosamente.', urlCarpeta, archivos });
@@ -120,5 +122,5 @@ app.get('/postulaciones', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor en ejecución en http://localhost:${PORT}`);
+  console.log(`Servidor en ejecución en http://${localhost}:${PORT}`);
 });
