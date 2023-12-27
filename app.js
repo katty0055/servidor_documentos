@@ -5,7 +5,7 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 
-const localhost = '0.0.0.0'
+const localhost = 'desarrollodtic.pol.una.py'
 
 const corsOptions = {
   origin: `http://${localhost}:5173`,
